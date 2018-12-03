@@ -23,56 +23,50 @@ class App extends Component {
     return (
 
       <ReactTable
-      data={data}
-      columns={[
-        {
-          Header: "Name",
-          columns: [
+          data={data}
+          filterable
+          columns={[
             {
               Header: "First Name",
               accessor: "firstName"
             },
             {
               Header: "Last Name",
-              id: "lastName",
-              accessor: d => d.lastName
-            }
-          ]
-        },
-        {
-          Header: "Info",
-          columns: [
-            {
-              Header: "Age",
-              accessor: "age",
-              aggregate: vals => _.round(_.mean(vals)),
-              Aggregated: row => {
-                return (
-                  <span>
-                    {row.value} (avg)
-                  </span>
-                );
-              }
+              accessor: "lastName"
             },
             {
-              Header: "Visits",
-              accessor: "visits",
-              aggregate: vals => _.sum(vals)
+              Header: "Age",
+              accessor: "age"
+            },
+            {
+              Header: "Over 21",
+              accessor: "age",
+              id: "over",
+              Cell: ({ value }) => (value >= 21 ? "Yes" : "No"),
+              filterMethod: (filter, row) => {
+                if (filter.value === "all") {
+                  return true;
+                }
+                if (filter.value === "true") {
+                  return row[filter.id] >= 21;
+                }
+                return row[filter.id] < 21;
+              },
+              Filter: ({ filter, onChange }) =>
+                <select
+                  onChange={event => onChange(event.target.value)}
+                  style={{ width: "100%" }}
+                  value={filter ? filter.value : "all"}
+                >
+                  <option value="all">Show All</option>
+                  <option value="true">Can Drink</option>
+                  <option value="false">Can't Drink</option>
+                </select>
             }
-          ]
-        }
-      ]}
-      pivotBy={["firstName", "lastName"]}
-      defaultPageSize={10}
-      className="-striped -highlight"
-      SubComponent={row => {
-        return (
-          <div style={{ padding: "20px" }}>
-            <em>Sub Component!</em>
-          </div>
-        );
-      }}
-    />
+          ]}
+          defaultPageSize={10}
+          className="-striped -highlight"
+        />
 
 
     );
