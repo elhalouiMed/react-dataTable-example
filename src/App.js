@@ -3,27 +3,44 @@ import logo from './logo.svg';
 import './App.css';
 
 import { render } from "react-dom";
-import { makeData, Logo, Tips } from "./Utils";
+// import { makeData, Logo, Tips } from "./Utils";
 import _ from "lodash";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: makeData(100000)
-    };
-  }
 
   render() {
-    const { data } = this.state;
-    console.log(data);
+    const localData = [
+      {
+        "firstName": "test1",
+        "lastName": "test2",
+        "age": 26,
+        "visits": 28,
+        "progress": 83,
+        "status": "relationship"
+      },
+      {
+        "firstName": "test2",
+        "lastName": "test3",
+        "age": 19,
+        "visits": 28,
+        "progress": 83,
+        "status": "relationship"
+      },
+      {
+        "firstName": "side",
+        "lastName": "rail",
+        "age": 19,
+        "visits": 28,
+        "progress": 83,
+        "status": "relationship"
+      }
+    ];
     return (
-
       <ReactTable
-          data={data}
+          data={localData}
           filterable
           columns={[
             {
@@ -67,8 +84,6 @@ class App extends Component {
           defaultPageSize={10}
           className="-striped -highlight"
         />
-
-
     );
   }
 }
